@@ -26,13 +26,19 @@ class MainActivity : ComponentActivity() {
 
         val nombreArchivo = "ejemplo.txt"
         val texto = "Hola me llamo Alvaro"
+        Escribir(texto, nombreArchivo)
+        Leer(nombreArchivo)
+
+
+    }
+
+
+    fun Escribir(texto: String, nombreArchivo: String) {
         val estadoAlmacenamiento = Environment.getExternalStorageState()
 
         if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
             val directorio = getFilesDir()
             val archivo = File(directorio, nombreArchivo)
-
-            // Escribir
             try {
                 val flujoSalida = FileOutputStream(archivo, true)
                 val writer = OutputStreamWriter(flujoSalida)
@@ -44,8 +50,16 @@ class MainActivity : ComponentActivity() {
                 e.printStackTrace()
                 Log.i("DAM2", "Error al guardar")
             }
+        }else {
+            Log.i("DAM2", "No se pudo acceder al almacenamiento externo")
+        }
+    }
 
-            // Leer
+    fun Leer(nombreArchivo: String) {
+        val estadoAlmacenamiento = Environment.getExternalStorageState()
+        if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
+            val directorio = getFilesDir()
+            val archivo = File(directorio, nombreArchivo)
             try {
                 val flujoEntrada = FileReader(archivo)
                 val leer = BufferedReader(flujoEntrada)
@@ -59,10 +73,11 @@ class MainActivity : ComponentActivity() {
                 e.printStackTrace()
                 Log.i("DAM2", "Error al leer")
             }
-        } else {
+        }else {
             Log.i("DAM2", "No se pudo acceder al almacenamiento externo")
         }
-
-
     }
+
+
 }
+
